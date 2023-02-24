@@ -273,7 +273,6 @@ function showMyBd() {
 // }
 // getTimeFromMinutes(185);
 
-
 // function findMaxNumber(a,b,c,d){
 //   let arr = [a,b,c,d]
 //   for(let i=0; i<arr.length;i++){
@@ -282,6 +281,44 @@ function showMyBd() {
 //     }
 //   }
 // console.log(Math.max(...arr))
-// } 
+// }
 // findMaxNumber(1, 5, '6', '10')
 
+const personalPlanPeter = {
+  name: "Peter",
+  age: "29",
+  skills: {
+    languages: ["ru", "eng"],
+    programmingLangs: {
+      js: "20%",
+      php: "10%",
+    },
+    exp: "1 month",
+  },
+  showAgeAndLangs(personalPlanPeter) {
+    const { age } = personalPlanPeter;
+    const { languages } = personalPlanPeter.skills;
+    let str = `Мне ${age} и я владею языками:`;
+    languages.forEach(function(lang){
+      str += ` ${lang.toUpperCase()}` 
+    })
+
+    return console.log(str);
+  },
+};
+personalPlanPeter.showAgeAndLangs(personalPlanPeter);
+
+function showExperience(personalPlanPeter) {
+  const { exp } = personalPlanPeter.skills;
+  return console.log(exp);
+}
+showExperience(personalPlanPeter);
+
+function showProgrammingLangs(personalPlanPeter) {
+  let str = "";
+  for (let key in personalPlanPeter.skills.programmingLangs) {
+    str += `Язык ${key} изучен на ${personalPlanPeter.skills.programmingLangs[key]}\n`;
+  }
+  return console.log(str);
+}
+showProgrammingLangs(personalPlanPeter);
