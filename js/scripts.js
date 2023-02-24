@@ -284,41 +284,66 @@ function showMyBd() {
 // }
 // findMaxNumber(1, 5, '6', '10')
 
-const personalPlanPeter = {
-  name: "Peter",
-  age: "29",
-  skills: {
-    languages: ["ru", "eng"],
-    programmingLangs: {
-      js: "20%",
-      php: "10%",
-    },
-    exp: "1 month",
-  },
-  showAgeAndLangs(personalPlanPeter) {
-    const { age } = personalPlanPeter;
-    const { languages } = personalPlanPeter.skills;
-    let str = `Мне ${age} и я владею языками:`;
-    languages.forEach(function(lang){
-      str += ` ${lang.toUpperCase()}` 
-    })
+// const personalPlanPeter = {
+//   name: "Peter",
+//   age: "29",
+//   skills: {
+//     languages: ["ru", "eng"],
+//     programmingLangs: {
+//       js: "20%",
+//       php: "10%",
+//     },
+//     exp: "1 month",
+//   },
+//   showAgeAndLangs(personalPlanPeter) {
+//     const { age } = personalPlanPeter;
+//     const { languages } = personalPlanPeter.skills;
+//     let str = `Мне ${age} и я владею языками:`;
+//     languages.forEach(function(lang){
+//       str += ` ${lang.toUpperCase()}` 
+//     })
 
-    return console.log(str);
-  },
-};
-personalPlanPeter.showAgeAndLangs(personalPlanPeter);
+//     return console.log(str);
+//   },
+// };
+// personalPlanPeter.showAgeAndLangs(personalPlanPeter);
 
-function showExperience(personalPlanPeter) {
-  const { exp } = personalPlanPeter.skills;
-  return console.log(exp);
+// function showExperience(personalPlanPeter) {
+//   const { exp } = personalPlanPeter.skills;
+//   return console.log(exp);
+// }
+// showExperience(personalPlanPeter);
+
+// function showProgrammingLangs(personalPlanPeter) {
+//   let str = "";
+//   for (let key in personalPlanPeter.skills.programmingLangs) {
+//     str += `Язык ${key} изучен на ${personalPlanPeter.skills.programmingLangs[key]}\n`;
+//   }
+//   return console.log(str);
+// }
+// showProgrammingLangs(personalPlanPeter);
+
+const family = ['Peter', 'Ann', 'Alex', 'Linda'];
+
+function showFamily(arr) {
+    let str = '';
+    if(arr.length > 0 ){
+      str += 'Семья состоит из:'
+      for(let i = 0; i<arr.length;i++){
+      str += ` ${arr[i]}`
+    }
+    }else{
+      str += 'Семья пуста'
+    }
+    return str;
 }
-showExperience(personalPlanPeter);
+showFamily(family);
 
-function showProgrammingLangs(personalPlanPeter) {
-  let str = "";
-  for (let key in personalPlanPeter.skills.programmingLangs) {
-    str += `Язык ${key} изучен на ${personalPlanPeter.skills.programmingLangs[key]}\n`;
-  }
-  return console.log(str);
+const favoriteCities = ['liSBon', 'ROME', 'miLan', 'Dublin'];
+
+function standardizeStrings(arr) {
+    arr.forEach(city => {
+      console.log(city.toLowerCase())
+  })
 }
-showProgrammingLangs(personalPlanPeter);
+standardizeStrings(favoriteCities)
