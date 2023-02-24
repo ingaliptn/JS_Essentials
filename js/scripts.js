@@ -300,7 +300,7 @@ function showMyBd() {
 //     const { languages } = personalPlanPeter.skills;
 //     let str = `Мне ${age} и я владею языками:`;
 //     languages.forEach(function(lang){
-//       str += ` ${lang.toUpperCase()}` 
+//       str += ` ${lang.toUpperCase()}`
 //     })
 
 //     return console.log(str);
@@ -323,27 +323,56 @@ function showMyBd() {
 // }
 // showProgrammingLangs(personalPlanPeter);
 
-const family = ['Peter', 'Ann', 'Alex', 'Linda'];
+// const family = ['Peter', 'Ann', 'Alex', 'Linda'];
 
-function showFamily(arr) {
-    let str = '';
-    if(arr.length > 0 ){
-      str += 'Семья состоит из:'
-      for(let i = 0; i<arr.length;i++){
-      str += ` ${arr[i]}`
-    }
-    }else{
-      str += 'Семья пуста'
-    }
-    return str;
+// function showFamily(arr) {
+//     let str = '';
+//     if(arr.length > 0 ){
+//       str += 'Семья состоит из:'
+//       for(let i = 0; i<arr.length;i++){
+//       str += ` ${arr[i]}`
+//     }
+//     }else{
+//       str += 'Семья пуста'
+//     }
+//     return str;
+// }
+// showFamily(family);
+
+// const favoriteCities = ['liSBon', 'ROME', 'miLan', 'Dublin'];
+
+// function standardizeStrings(arr) {
+//     arr.forEach(city => {
+//       console.log(city.toLowerCase())
+//   })
+// }
+// standardizeStrings(favoriteCities)
+
+const someString = "This is some strange string";
+
+function reverse(str) {
+  let rev = "";
+  for (let i = str.length - 1; i >= 0; i--) {
+    rev += `${str[i]}`;
+  }
+  return console.log(`${str}\n${rev}`);
 }
-showFamily(family);
+reverse(someString);
 
-const favoriteCities = ['liSBon', 'ROME', 'miLan', 'Dublin'];
+const baseCurrencies = ['USD', 'EUR'];
+const additionalCurrencies = ['UAH', 'RUB', 'CNY'];
 
-function standardizeStrings(arr) {
-    arr.forEach(city => {
-      console.log(city.toLowerCase())
-  })
+function availableCurr(arr, missingCurr) {
+  let str = '';
+  arr.length === 0 ? str = 'Нет доступных валют' : str = 'Доступные валюты:\n';
+
+  arr.forEach(function(curr, i) {
+      if (curr !== missingCurr) {
+          str += `${curr}\n`;
+      }
+  });
+
+  return console.log(str);
 }
-standardizeStrings(favoriteCities)
+
+availableCurr([...baseCurrencies, ...additionalCurrencies], 'RUB')
