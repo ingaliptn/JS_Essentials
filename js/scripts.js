@@ -1,7 +1,5 @@
 "use strict";
 
-
-
 //-------
 for (i = 5; i <= 10; i++) {
   console.log(i);
@@ -66,18 +64,18 @@ console.log(data);
 console.log(result);
 //-------
 const lines = 5;
-let result = '';
+let result = "";
 
 for (let i = 0; i <= lines; i++) {
-    for (let j = 0; j < lines - i; j++) {
-        result += " ";
-    }
-    for (let j = 0; j < 2 * i + 1; j++) {
-        result += "*";
-    }
-    result += "\n";
+  for (let j = 0; j < lines - i; j++) {
+    result += " ";
+  }
+  for (let j = 0; j < 2 * i + 1; j++) {
+    result += "*";
+  }
+  result += "\n";
 }
-console.log(result)
+console.log(result);
 //-------
 function Hello(name) {
   console.log(`Hello, ${name}`);
@@ -93,14 +91,14 @@ function Numberr(num) {
 console.log(Numberr(3));
 //-------
 function getMath(num, rep) {
-  let str = '';
+  let str = "";
   if (typeof rep != "number" || rep <= 0) {
     return num;
   } else {
     for (i = 1; i <= rep; i++) {
       if (i === rep) {
-        str += num * i ;
-      } else str += (num * i) + "---";
+        str += num * i;
+      } else str += num * i + "---";
     }
   }
   return str;
@@ -108,7 +106,7 @@ function getMath(num, rep) {
 console.log(getMath(10, -5));
 //-------
 function calculateVolumeAndArea(a) {
-  if (a == '' || typeof(a) != 'number' || a <= 0 || a % 1 !== 0) {
+  if (a == "" || typeof a != "number" || a <= 0 || a % 1 !== 0) {
     return "При вычислении произошла ошибка";
   } else {
     let S = 6 * Math.pow(a, 2);
@@ -116,7 +114,7 @@ function calculateVolumeAndArea(a) {
     return `Объем куба: ${V}, площадь всей поверхности: ${S}`;
   }
 }
-console.log(calculateVolumeAndArea(5.5))
+console.log(calculateVolumeAndArea(5.5));
 //-------
 function getCoupeNumber() {
   let train = { coupe: {} };
@@ -168,16 +166,16 @@ function getTimeFromMinutes(minutesTotal) {
 }
 getTimeFromMinutes(185);
 //-------
-function findMaxNumber(a,b,c,d){
-  let arr = [a,b,c,d]
-  for(let i=0; i<arr.length;i++){
-    if(typeof(arr[i]) != 'number' || arr[i] == null){
+function findMaxNumber(a, b, c, d) {
+  let arr = [a, b, c, d];
+  for (let i = 0; i < arr.length; i++) {
+    if (typeof arr[i] != "number" || arr[i] == null) {
       return console.log(0);
     }
   }
-console.log(Math.max(...arr))
+  console.log(Math.max(...arr));
 }
-findMaxNumber(1, 5, '6', '10')
+findMaxNumber(1, 5, "6", "10");
 //-------
 const personalPlanPeter = {
   name: "Peter",
@@ -194,9 +192,9 @@ const personalPlanPeter = {
     const { age } = personalPlanPeter;
     const { languages } = personalPlanPeter.skills;
     let str = `Мне ${age} и я владею языками:`;
-    languages.forEach(function(lang){
-      str += ` ${lang.toUpperCase()}`
-    })
+    languages.forEach(function (lang) {
+      str += ` ${lang.toUpperCase()}`;
+    });
 
     return console.log(str);
   },
@@ -218,30 +216,30 @@ function showProgrammingLangs(personalPlanPeter) {
 }
 showProgrammingLangs(personalPlanPeter);
 //-------
-const family = ['Peter', 'Ann', 'Alex', 'Linda'];
+const family = ["Peter", "Ann", "Alex", "Linda"];
 
 function showFamily(arr) {
-    let str = '';
-    if(arr.length > 0 ){
-      str += 'Семья состоит из:'
-      for(let i = 0; i<arr.length;i++){
-      str += ` ${arr[i]}`
+  let str = "";
+  if (arr.length > 0) {
+    str += "Семья состоит из:";
+    for (let i = 0; i < arr.length; i++) {
+      str += ` ${arr[i]}`;
     }
-    }else{
-      str += 'Семья пуста'
-    }
-    return str;
+  } else {
+    str += "Семья пуста";
+  }
+  return str;
 }
 showFamily(family);
 //-------
-const favoriteCities = ['liSBon', 'ROME', 'miLan', 'Dublin'];
+const favoriteCities = ["liSBon", "ROME", "miLan", "Dublin"];
 
 function standardizeStrings(arr) {
-    arr.forEach(city => {
-      console.log(city.toLowerCase())
-  })
+  arr.forEach((city) => {
+    console.log(city.toLowerCase());
+  });
 }
-standardizeStrings(favoriteCities)
+standardizeStrings(favoriteCities);
 //-------
 const someString = "This is some strange string";
 
@@ -254,21 +252,59 @@ function reverse(str) {
 }
 reverse(someString);
 //-------
-const baseCurrencies = ['USD', 'EUR'];
-const additionalCurrencies = ['UAH', 'RUB', 'CNY'];
+const baseCurrencies = ["USD", "EUR"];
+const additionalCurrencies = ["UAH", "RUB", "CNY"];
 
 function availableCurr(arr, missingCurr) {
-  let str = '';
-  arr.length === 0 ? str = 'Нет доступных валют' : str = 'Доступные валюты:\n';
+  let str = "";
+  arr.length === 0
+    ? (str = "Нет доступных валют")
+    : (str = "Доступные валюты:\n");
 
-  arr.forEach(function(curr, i) {
-      if (curr !== missingCurr) {
-          str += `${curr}\n`;
-      }
+  arr.forEach(function (curr, i) {
+    if (curr !== missingCurr) {
+      str += `${curr}\n`;
+    }
   });
 
   return console.log(str);
 }
-availableCurr([...baseCurrencies, ...additionalCurrencies], 'RUB')
+availableCurr([...baseCurrencies, ...additionalCurrencies], "RUB");
 //-------
 
+const shoppingMallData = {
+  shops: [
+    {
+      width: 10,
+      length: 5,
+    },
+    {
+      width: 15,
+      length: 7,
+    },
+    {
+      width: 20,
+      length: 5,
+    },
+    {
+      width: 8,
+      length: 10,
+    },
+  ],
+  height: 5,
+  moneyPer1m3: 30,
+  budget: 50000,
+};
+
+function isBudgetEnough(data) {
+  let square = 0;
+  let volume = 0;
+  data.shops.forEach((shops) => {
+    square = shops.width * shops.length;
+  });
+  volume = square * data.height;
+
+  return  data.budget >= (volume * data.moneyPer1m3)?'Бюджета достаточно':'Бюджета недостаточно';
+
+}
+isBudgetEnough(shoppingMallData)
