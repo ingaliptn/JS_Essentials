@@ -1,17 +1,3 @@
-/* Задания на урок:
-
-1) Удалить все рекламные блоки со страницы (правая часть сайта)
-
-2) Изменить жанр фильма, поменять "комедия" на "драма"
-
-3) Изменить задний фон постера с фильмом на изображение "bg.jpg". Оно лежит в папке img.
-Реализовать только при помощи JS
-
-4) Список фильмов на странице сформировать на основании данных из этого JS файла.
-Отсортировать их по алфавиту 
-
-5) Добавить нумерацию выведенных фильмов */
-
 "use strict";
 
 const movieDB = {
@@ -28,15 +14,10 @@ const adv = document.querySelectorAll(".promo__adv img"),
   poster = document.querySelector(".promo__bg"),
   genre = poster.querySelector(".promo__genre"),
   resent = document.querySelector(".promo__interactive-list"),
-  deleteBtn = resent.querySelectorAll('.delete'),
   filmForm = document.querySelector(".add"),
   addFilm = filmForm.querySelector("button"),
+  checkFilm = document.querySelector("input[type='checkbox']"),
   filmName = filmForm.querySelector("input");
-
-deleteBtn[0].addEventListener('click', (e)=>{
-  console.log("delete");
-})
-
 
 //adv.remove();
 adv.forEach((i) => {
@@ -46,7 +27,6 @@ resent.innerHTML = "";
 
 genre.textContent = "ДРАМА";
 poster.style.backgroundImage = 'url("img/bg.jpg")';
-
 
 function showMovie() {
   movieDB.movies.sort();
@@ -58,15 +38,26 @@ function showMovie() {
                         </li>
     `;
   });
+
+  document.querySelectorAll(".delete").forEach((btn, i) => {
+    btn.addEventListener("click", () => {
+      btn.parentElement.remove();
+      movieDB.movies.splice(i, 1);
+      showMovie();
+    });
+  });
 }
 showMovie();
 
 addFilm.addEventListener("click", (e) => {
   e.preventDefault();
   let fName = filmName.value;
-  if(fName.length > 21){
-    fName = fName.slice(0,21);
-    fName += '...';
+  if (fName.length > 21) {
+    fName = fName.slice(0, 21);
+    fName += "...";
+  }
+  if (checkFilm.checked == true) {
+    console.log("Добавляем любимый фильм");
   }
   movieDB.movies.push(fName);
   showMovie();
