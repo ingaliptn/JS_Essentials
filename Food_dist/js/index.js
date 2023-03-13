@@ -95,4 +95,34 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   setClock(".timer", deadLine);
+
+  //Modal
+
+  const btnModal = document.querySelectorAll("[data-modal]"),
+    btnModalClose = document.querySelector("[data-close]"),
+    modalWindow = document.querySelector(".modal");
+
+  btnModal.forEach((i) => {
+    i.addEventListener("click", () => {
+      modalWindow.style.display = "block";
+      //modalWindow.classList.add('show');
+      //modalWindow.classList.remove('hide');
+      document.body.style.overflow = "hidden";
+    });
+  });
+
+  function closeModalWindow() {
+    modalWindow.style.display = "none";
+    document.body.style.overflow = "";
+  }
+  btnModalClose.addEventListener("click", closeModalWindow);
+
+  modalWindow.addEventListener("click", (e) => {
+    if (e.target === modalWindow) closeModalWindow();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Escape" && modalWindow.style.display === "block")
+      closeModalWindow();
+  });
 });
