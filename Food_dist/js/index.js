@@ -128,7 +128,7 @@ window.addEventListener("DOMContentLoaded", () => {
       closeModalWindow();
   });
 
-  //const modalTimeId = setTimeout(openModal, 7000);
+  const modalTimeId = setTimeout(openModal, 7000);
 
   function showModalByScroll() {
     if (
@@ -206,4 +206,46 @@ window.addEventListener("DOMContentLoaded", () => {
     ".menu .container",
     "menu__item"
   ).render();
+
+  //Forms
+
+  const forms = document.querySelectorAll("form");
+
+  const message = {
+    loading: "Loading",
+    done: "Done",
+    error: "Error",
+  };
+
+  forms.forEach(i =>{
+    postData(i);
+  })
+
+  function postData(form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const statusMessage = document.createElement("div");
+      statusMessage.classList.add("status");
+      statusMessage.textContent = message.loading;
+      form.append(statusMessage);
+
+      const req = new XMLHttpRequest();
+      req.open("POST", "server.php");
+
+      req.setRequestHeader("Content-type", "multipart/form-data");
+      const formData = new FormData(form);
+
+      req.send(formData);
+      req.addEventListener("load", (e) => {
+        if (req.status === 200) {
+          statusMessage.textContent = message.done;
+          console.log(req.response);
+        } else {
+          statusMessage.textContent = message.error;
+          console.log(req.response);
+        }
+      });
+    });
+  }
 });
