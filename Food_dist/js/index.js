@@ -179,27 +179,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // const getResource = async (url) => {
-  //   const res = await fetch(url);
-  //   if (!res.ok) {
-  //     throw new Error(`Coudnt fetch ${url}, status ${res.status}`);
-  //   }
-  //   return await res.json();
-  // };
-
-  // getResource("http://localhost:3000/menu").then((data) => {
-  //   data.forEach(({ img, altimg, title, descr, price }) => {
-  //     new MenuCard(
-  //       img,
-  //       altimg,
-  //       title,
-  //       descr,
-  //       price,
-  //       ".menu .container"
-  //     ).render();
-  //   });
-  // });
-
   axios.get("http://localhost:3000/menu").then((data) => {
     data.data.forEach(({ img, altimg, title, descr, price }) => {
       new MenuCard(
@@ -374,4 +353,75 @@ window.addEventListener("DOMContentLoaded", () => {
       current.textContent = slideIndex;
     }
   });
+
+  //Calculator
+
+  const result = document.querySelector(".calculating__result span");
+  let sex = "female",
+    height,
+    weight,
+    age,
+    ratio = 1.375;
+
+  function calcTotal() {
+    if (!sex || !height || !weight || !age || !ratio) {
+      result.textContent = "____";
+      return;
+    }
+    if (sex === "female") {
+      result.textContent = Math.round(
+        (447.6 + 9.2 * weight + 3.1 * height - 4.3 * age) * ratio
+      );
+    } else {
+      result.textContent = Math.round(
+        (88.36 + 13.4 * weight + 4.8 * height - 5.7 * age) * ratio
+      );
+    }
+  }
+  calcTotal();
+
+  function getStaticInformation(parent, active) {
+    const elements = document.querySelectorAll(`${parent} div`);
+
+    elements.forEach((elem) => {
+      elem.addEventListener("click", (e) => {
+        if (e.target.getAttribute("data-ratio")) {
+          ratio = +e.target.getAttribute("data-ratio");
+        } else {
+          sex = e.target.getAttribute("id");
+        }
+
+        elements.forEach((elem) => {
+          elem.classList.remove(active);
+        });
+        e.target.classList.add(active);
+        calcTotal();
+      });
+    });
+  }
+  getStaticInformation("#gender", "calculating__choose-item_active");
+  getStaticInformation(
+    ".calculating__choose_big",
+    "calculating__choose-item_active"
+  );
+  function getInfo(selector) {
+    const input = document.querySelector(selector);
+    input.addEventListener("input", () => {
+      switch (input.getAttribute("id")) {
+        case "height":
+          height = +input.value;
+          break;
+        case "weight":
+          weight = +input.value;
+          break;
+        case "age":
+          age = +input.value;
+          break;
+      }
+      calcTotal();
+    });
+  }
+  getInfo("#height");
+  getInfo("#weight");
+  getInfo("#age");
 });
