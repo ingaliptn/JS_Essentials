@@ -278,17 +278,18 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Slider
 
+  let offset = 0;
+  let slideIndex = 1;
+
   const slides = document.querySelectorAll(".offer__slide"),
+    slider = document.querySelector(".offer__slider"),
     prev = document.querySelector(".offer__slider-prev"),
     next = document.querySelector(".offer__slider-next"),
     total = document.querySelector("#total"),
     current = document.querySelector("#current"),
     slidesWrapper = document.querySelector(".offer__slider-wrapper"),
-    slidesField = document.querySelector(".offer__slider-inner"),
-    width = window.getComputedStyle(slidesWrapper).width;
-
-  let slideIndex = 1;
-  let offset = 0;
+    width = window.getComputedStyle(slidesWrapper).width,
+    slidesField = document.querySelector(".offer__slider-inner");
 
   if (slides.length < 10) {
     total.textContent = `0${slides.length}`;
@@ -299,27 +300,68 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   slidesField.style.width = 100 * slides.length + "%";
-
   slidesField.style.display = "flex";
   slidesField.style.transition = "0.5s all";
 
   slidesWrapper.style.overflow = "hidden";
 
-  slides.forEach((i) => {
-    i.style.width = width;
+  slides.forEach((slide) => {
+    slide.style.width = width;
   });
 
-  function regNumber(n) {
-    return +n.replace(/\D/g, "");
+  slider.style.position = "relative";
+
+  const indicators = document.createElement("ol"),
+    dots = [];
+  indicators.classList.add("carousel-indicators");
+  indicators.style.cssText = `
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 15;
+        display: flex;
+        justify-content: center;
+        margin-right: 15%;
+        margin-left: 15%;
+        list-style: none;
+    `; // Если хотите - добавьте в стили, но иногда у нас нет доступа к стилям
+  slider.append(indicators);
+
+  for (let i = 0; i < slides.length; i++) {
+    const dot = document.createElement("li");
+    dot.setAttribute("data-slide-to", i + 1);
+    dot.style.cssText = `
+            box-sizing: content-box;
+            flex: 0 1 auto;
+            width: 30px;
+            height: 6px;
+            margin-right: 3px;
+            margin-left: 3px;
+            cursor: pointer;
+            background-color: #fff;
+            background-clip: padding-box;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            opacity: .5;
+            transition: opacity .6s ease;
+        `;
+    if (i == 0) {
+      dot.style.opacity = 1;
+    }
+    indicators.append(dot);
+    dots.push(dot);
   }
 
   next.addEventListener("click", () => {
-    if (offset === regNumber(width) * (slides.length - 1)) {
+    if (offset == deleteNotDigits(width) * (slides.length - 1)) {
       offset = 0;
     } else {
-      offset += regNumber(width);
+      offset += deleteNotDigits(width);
     }
+
     slidesField.style.transform = `translateX(-${offset}px)`;
+
     if (slideIndex == slides.length) {
       slideIndex = 1;
     } else {
@@ -331,14 +373,18 @@ window.addEventListener("DOMContentLoaded", () => {
     } else {
       current.textContent = slideIndex;
     }
+
+    dots.forEach((dot) => (dot.style.opacity = ".5"));
+    dots[slideIndex - 1].style.opacity = 1;
   });
 
   prev.addEventListener("click", () => {
     if (offset == 0) {
-      offset = regNumber(width) * (slides.length - 1);
+      offset = deleteNotDigits(width) * (slides.length - 1);
     } else {
-      offset -= regNumber(width);
+      offset -= deleteNotDigits(width);
     }
+
     slidesField.style.transform = `translateX(-${offset}px)`;
 
     if (slideIndex == 1) {
@@ -352,16 +398,70 @@ window.addEventListener("DOMContentLoaded", () => {
     } else {
       current.textContent = slideIndex;
     }
+
+    dots.forEach((dot) => (dot.style.opacity = ".5"));
+    dots[slideIndex - 1].style.opacity = 1;
   });
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", (e) => {
+      const slideTo = e.target.getAttribute("data-slide-to");
+
+      slideIndex = slideTo;
+      offset = deleteNotDigits(width) * (slideTo - 1);
+
+      slidesField.style.transform = `translateX(-${offset}px)`;
+
+      if (slides.length < 10) {
+        current.textContent = `0${slideIndex}`;
+      } else {
+        current.textContent = slideIndex;
+      }
+
+      dots.forEach((dot) => (dot.style.opacity = ".5"));
+      dots[slideIndex - 1].style.opacity = 1;
+    });
+  });
+
+  function deleteNotDigits(str) {
+    return +str.replace(/\D/g, "");
+  }
 
   //Calculator
 
   const result = document.querySelector(".calculating__result span");
-  let sex = "female",
-    height,
-    weight,
-    age,
+  let sex, height, weight, age, ratio;
+
+  if (localStorage.getItem("SexClick")) {
+    sex = localStorage.getItem("SexClick");
+  } else {
+    sex = "female";
+    localStorage.setItem("SexClick", "female");
+  }
+  if (localStorage.getItem("RatioClick")) {
+    ratio = localStorage.getItem("RatioClick");
+  } else {
     ratio = 1.375;
+    localStorage.setItem("RatioClick", 1.375);
+  }
+
+  function initLocalSettings(selector, activeClass) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach((i) => {
+      i.classList.remove(activeClass);
+      if (i.getAttribute("id") === localStorage.getItem("SexClick")) {
+        i.classList.add(activeClass);
+      }
+      if (i.getAttribute("data-ratio") === localStorage.getItem("RatioClick")) {
+        i.classList.add(activeClass);
+      }
+    });
+  }
+  initLocalSettings("#gender div", "calculating__choose-item_active");
+  initLocalSettings(
+    ".calculating__choose_big div",
+    "calculating__choose-item_active"
+  );
 
   function calcTotal() {
     if (!sex || !height || !weight || !age || !ratio) {
@@ -380,15 +480,20 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   calcTotal();
 
-  function getStaticInformation(parent, active) {
-    const elements = document.querySelectorAll(`${parent} div`);
+  function getStaticInformation(selector, active) {
+    const elements = document.querySelectorAll(selector);
 
     elements.forEach((elem) => {
       elem.addEventListener("click", (e) => {
         if (e.target.getAttribute("data-ratio")) {
           ratio = +e.target.getAttribute("data-ratio");
+          localStorage.setItem(
+            "RatioClick",
+            +e.target.getAttribute("data-ratio")
+          );
         } else {
           sex = e.target.getAttribute("id");
+          localStorage.setItem("SexClick", e.target.getAttribute("id"));
         }
 
         elements.forEach((elem) => {
@@ -399,14 +504,22 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
-  getStaticInformation("#gender", "calculating__choose-item_active");
+  getStaticInformation("#gender div", "calculating__choose-item_active");
   getStaticInformation(
-    ".calculating__choose_big",
+    ".calculating__choose_big div",
     "calculating__choose-item_active"
   );
+
   function getInfo(selector) {
     const input = document.querySelector(selector);
+
     input.addEventListener("input", () => {
+      if (input.value.match(/\D/g)) {
+        input.style.border = "1px solid red";
+      } else {
+        input.style.border = "none";
+      }
+
       switch (input.getAttribute("id")) {
         case "height":
           height = +input.value;
