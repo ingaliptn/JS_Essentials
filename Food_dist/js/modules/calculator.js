@@ -108,4 +108,4 @@ function calculator() {
   getInfo("#weight");
   getInfo("#age");
 }
-module.exports = calculator;
+export default calculator;
