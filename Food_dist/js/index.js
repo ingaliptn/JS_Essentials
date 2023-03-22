@@ -7,6 +7,7 @@ import form from "./modules/form";
 import cards from "./modules/cards";
 import calculator from "./modules/calculator";
 import { openModal } from "./modules/modal";
+import 'jquery';
 
 window.addEventListener("DOMContentLoaded", () => {
   const modalTimeId = setTimeout(() => openModal(".modal", modalTimeId), 50000);
